@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MarketPro | Stock Market Information</title>
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    color:#fff;
+    min-height:100vh;
+    background:
+      radial-gradient(circle at 15% 10%,#173f5f 0%,transparent 35%),
+      radial-gradient(circle at 90% 20%,#26306f 0%,transparent 35%),
+      linear-gradient(135deg,#050a13,#0b1220 55%,#101a2d);
+}
+.container{
+    max-width:720px;
+    margin:auto;
+    padding:14px;
+}
+/* HEADER */
+.header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:14px;
+    border:1px solid #2d6cff;
+    border-radius:18px;
+    background:rgba(8,15,30,.9);
+    box-shadow:0 0 25px rgba(45,108,255,.18);
+}
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+.logo{
+    width:48px;
+    height:48px;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#146cff,#16c7ff);
+    font-size:25px;
+}
+.brand h2{
+    font-size:17px;
+}
+.brand p{
+    color:#9ca8bb;
+    font-size:11px;
+    margin-top:4px;
+}
+.header-btn{
+    color:#fff;
+    text-decoration:none;
+    font-weight:bold;
+    font-size:12px;
+    padding:11px 15px;
+    border-radius:25px;
+    background:linear-gradient(135deg,#146cff,#16bfff);
+}
+/* HERO */
+.hero{
+    text-align:center;
+    padding:42px 10px 25px;
+}
+.market-icon{
+    width:130px;
+    height:130px;
+    margin:auto;
+    border-radius:35px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:70px;
+    background:linear-gradient(135deg,#112f5d,#0e75b9);
+    border:2px solid #25a9ff;
+    box-shadow:0 0 35px rgba(20,150,255,.35);
+}
+.hero h1{
+    margin-top:24px;
+    font-size:45px;
+    font-weight:900;
+}
+.hero h1 span{
+    color:#20bfff;
+}
+.hero h3{
+    margin-top:10px;
+    color:#aebbd0;
+    font-size:18px;
+    font-weight:normal;
+}
+/* MIDDLE TELEGRAM BUTTON */
+.middle-telegram{
+    position:relative;
+    overflow:hidden;
+    display:block;
+    width:92%;
+    margin:18px auto 15px;
+    padding:15px 12px;
+    border-radius:35px;
+    text-align:center;
+    text-decoration:none;
+    color:#fff;
+    font-size:17px;
+    font-weight:800;
+    letter-spacing:.3px;
+    background:linear-gradient(135deg,#087cfb,#18c8ff,#087cfb);
+    border:1px solid rgba(255,255,255,.35);
+    box-shadow:
+        0 0 18px rgba(20,160,255,.45),
+        0 6px 22px rgba(0,0,0,.25);
+    transition:.25s ease;
+}
+/* Moving shine */
+.middle-telegram::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-80%;
+    width:45%;
+    height:100%;
+    background:linear-gradient(
+        110deg,
+        transparent,
+        rgba(255,255,255,.15),
+        rgba(255,255,255,.85),
+        rgba(255,255,255,.15),
+        transparent
+    );
+    transform:skewX(-20deg);
+    animation:telegramShine 2s linear infinite;
+}
+.middle-telegram span{
+    position:relative;
+    z-index:2;
+}
+@keyframes telegramShine{
+    0%{
+        left:-80%;
+    }
+    100%{
+        left:140%;
+    }
+}
+.middle-telegram:hover{
+    transform:scale(1.02);
+    box-shadow:
+        0 0 28px rgba(20,180,255,.65),
+        0 8px 25px rgba(0,0,0,.3);
+}
+.badge{
+    display:inline-block;
+    margin-top:10px;
+    padding:12px 22px;
+    border-radius:30px;
+    background:rgba(20,130,255,.12);
+    border:1px solid #238fff;
+    color:#7ed4ff;
+    font-weight:bold;
+    font-size:13px;
+}
+/* MARKET CARDS */
+.market-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin:20px 0;
+}
+.market-card{
+    padding:18px 10px;
+    border-radius:16px;
+    background:rgba(10,19,36,.9);
+    border:1px solid #253d61;
+}
+.market-card h3{
+    font-size:14px;
+    margin-bottom:8px;
+}
+.price{
+    font-size:17px;
+    font-weight:bold;
+}
+.up{
+    color:#28df91;
+    font-size:12px;
+    margin-top:5px;
+}
+.down{
+    color:#ff667c;
+    font-size:12px;
+    margin-top:5px;
+}
+/* SECTION */
+.section-title{
+    text-align:center;
+    font-size:23px;
+    margin:32px 0 16px;
+}
+.section-title span{
+    color:#22bfff;
+}
+/* INFO CARD */
+.info-card{
+    display:flex;
+    gap:16px;
+    align-items:center;
+    padding:20px;
+    margin:12px 0;
+    border-radius:18px;
+    background:linear-gradient(
+      90deg,
+      rgba(13,31,58,.95),
+      rgba(8,16,30,.95)
+    );
+    border:1px solid #24466f;
+}
+.icon{
+    width:55px;
+    min-width:55px;
+    height:55px;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#126dff,#16c5ff);
+    font-size:25px;
+}
+.info-card h3{
+    font-size:16px;
+    margin-bottom:6px;
+}
+.info-card p{
+    color:#9daabd;
+    font-size:13px;
+    line-height:1.5;
+}
+/* FEATURES */
+.features{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+.feature{
+    padding:20px 12px;
+    text-align:center;
+    border-radius:17px;
+    background:rgba(10,19,37,.85);
+    border:1px solid #25456d;
+}
+.feature-icon{
+    font-size:30px;
+    margin-bottom:9px;
+}
+.feature h3{
+    font-size:15px;
+}
+.feature p{
+    color:#8998ae;
+    font-size:12px;
+    margin-top:6px;
+}
+/* CTA */
+.cta{
+    margin-top:35px;
+    padding:30px 18px;
+    text-align:center;
+    border-radius:25px;
+    background:
+      radial-gradient(circle at top,#154f8c,#0a1427 65%);
+    border:1px solid #238fff;
+}
+.cta h2{
+    font-size:23px;
+    margin-bottom:10px;
+}
+.cta p{
+    color:#aab8cb;
+    font-size:13px;
+    margin-bottom:20px;
+}
+.cta-btn{
+    position:relative;
+    overflow:hidden;
+    display:block;
+    width:100%;
+    padding:18px;
+    border-radius:16px;
+    color:#fff;
+    text-decoration:none;
+    font-size:18px;
+    font-weight:bold;
+    background:linear-gradient(135deg,#146cff,#16c8ff);
+    box-shadow:0 0 25px rgba(21,143,255,.35);
+}
+/* DISCLAIMER */
+.disclaimer{
+    margin-top:20px;
+    padding:18px;
+    border:1px dashed #45617f;
+    border-radius:16px;
+    color:#8998aa;
+    font-size:11px;
+    line-height:1.6;
+    text-align:center;
+}
+/* FOOTER */
+.footer{
+    text-align:center;
+    padding:25px 10px;
+    color:#66758a;
+    font-size:11px;
+}
+/* MOBILE */
+@media(max-width:500px){
+    .container{
+        padding:12px 8px 25px;
+    }
+    .hero{
+        padding:30px 8px 20px;
+    }
+    .market-icon{
+        width:105px;
+        height:105px;
+        font-size:58px;
+        border-radius:28px;
+    }
+    .hero h1{
+        font-size:36px;
+        margin-top:20px;
+    }
+    .hero h3{
+        font-size:15px;
+    }
+    .middle-telegram{
+        width:95%;
+        padding:14px 8px;
+        font-size:16px;
+        margin:16px auto 12px;
+    }
+    .badge{
+        font-size:11px;
+        padding:10px 16px;
+    }
+    .market-grid{
+        gap:7px;
+    }
+    .market-card{
+        padding:15px 7px;
+    }
+    .market-card h3{
+        font-size:12px;
+    }
+    .price{
+        font-size:14px;
+    }
+    .features{
+        gap:8px;
+    }
+    .feature{
+        padding:16px 8px;
+    }
+    .info-card{
+        padding:16px;
+    }
+    .header-btn{
+        padding:10px 11px;
+        font-size:10px;
+    }
+    .cta{
+        padding:25px 14px;
+    }
+    .cta-btn{
+        padding:16px 8px;
+        font-size:17px;
+    }
+}
+</style>
+</head>
+<body>
+<div class="container">
+<!-- HEADER -->
+<header class="header">
+    <div class="brand">
+        <div class="logo">📈</div>
+        <div>
+            <h2>MARKETPRO</h2>
+            <p>STOCK MARKET INFORMATION</p>
+        </div>
+    </div>
+    <a href="https://t.me/YOUR_CHANNEL"
+       class="header-btn">
+       JOIN CHANNEL
+    </a>
+</header>
+<!-- HERO -->
+<section class="hero">
+    <div class="market-icon">
+        📊
+    </div>
+    <h1>
+        STOCK <span>MARKET</span>
+    </h1>
+    <!-- MIDDLE TELEGRAM BUTTON -->
+    <a href="https://t.me/YOUR_CHANNEL"
+       class="middle-telegram">
+       <span>📲 JOIN NOW ON TELEGRAM</span>
+    </a>
+    <h3>
+        Market Updates • Research • Learning
+    </h3>
+    <div class="badge">
+        📈 DAILY MARKET INFORMATION
+    </div>
+</section>
+<!-- MARKET SNAPSHOT -->
+<div class="market-grid">
+    <div class="market-card">
+        <h3>NIFTY 50</h3>
+        <div class="price">25,000</div>
+        <div class="up">▲ +0.45%</div>
+    </div>
+    <div class="market-card">
+        <h3>SENSEX</h3>
+        <div class="price">81,500</div>
+        <div class="up">▲ +0.32%</div>
+    </div>
+    <div class="market-card">
+        <h3>BANK NIFTY</h3>
+        <div class="price">55,200</div>
+        <div class="down">▼ -0.18%</div>
+    </div>
+</div>
+<!-- FEATURES -->
+<h2 class="section-title">
+    WHY <span>FOLLOW US?</span>
+</h2>
+<div class="features">
+    <div class="feature">
+        <div class="feature-icon">📊</div>
+        <h3>MARKET ANALYSIS</h3>
+        <p>Technical market insights</p>
+    </div>
+    <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <h3>FAST UPDATES</h3>
+        <p>Important market news</p>
+    </div>
+    <div class="feature">
+        <div class="feature-icon">🎓</div>
+        <h3>LEARNING</h3>
+        <p>Stock market education</p>
+    </div>
+    <div class="feature">
+        <div class="feature-icon">🔎</div>
+        <h3>RESEARCH</h3>
+        <p>Research-based information</p>
+    </div>
+</div>
+<!-- INFORMATION -->
+<h2 class="section-title">
+    MARKET <span>UPDATES</span>
+</h2>
+<div class="info-card">
+    <div class="icon">📈</div>
+    <div>
+        <h3>TECHNICAL ANALYSIS</h3>
+        <p>
+            Charts, trends and important technical levels
+            for educational and research purposes.
+        </p>
+    </div>
+</div>
+<div class="info-card">
+    <div class="icon">📰</div>
+    <div>
+        <h3>MARKET NEWS</h3>
+        <p>
+            Important stock market news and events in one place.
+        </p>
+    </div>
+</div>
+<div class="info-card">
+    <div class="icon">💡</div>
+    <div>
+        <h3>TRADING EDUCATION</h3>
+        <p>
+            Learn about technical analysis, risk management
+            and market basics.
+        </p>
+    </div>
+</div>
+<!-- CTA -->
+<section class="cta">
+    <h2>GET DAILY MARKET UPDATES</h2>
+    <p>
+        Follow our channel for stock market information,
+        educational content and market updates.
+    </p>
+    <a href="https://t.me/YOUR_CHANNEL"
+       class="cta-btn">
+       📲 JOIN TELEGRAM CHANNEL
+    </a>
+</section>
+<!-- DISCLAIMER -->
+<div class="disclaimer">
+    <strong>RISK DISCLAIMER</strong><br><br>
+    This website is for educational and informational purposes only.
+    Nothing on this page should be considered investment advice,
+    a recommendation to buy or sell securities, or a guarantee of returns.
+    Stock market investments are subject to market risks.
+    Please conduct your own research or consult a qualified financial professional.
+</div>
+<!-- FOOTER -->
+<footer class="footer">
+    ©️ 2026 MarketPro • Stock Market Information
+</footer>
+</div>
+</body>
+</html>
